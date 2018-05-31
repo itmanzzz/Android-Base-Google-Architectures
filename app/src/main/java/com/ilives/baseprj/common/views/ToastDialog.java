@@ -45,7 +45,7 @@ public class ToastDialog extends Dialog {
     public ToastDialog(Context context) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.rootView = DataBindingUtil.setContentView((Activity) getContext(), R.layout.dialog_toast);
+        this.rootView = DataBindingUtil.setContentView((Activity) context, R.layout.dialog_toast);
         Window window = getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

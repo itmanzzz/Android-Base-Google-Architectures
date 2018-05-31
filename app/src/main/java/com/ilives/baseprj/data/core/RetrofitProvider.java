@@ -48,8 +48,8 @@ public class RetrofitProvider {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(getConfigOkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create(builder.create()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(builder.create()));
         mRetrofit = retrofitBuilder.build();
     }
 

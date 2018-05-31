@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     private void doAuthenticate() {
         if (!preCheckConnection()) return;
-        String email = "vu.lt@neo-lab.vn";
+        String email = "aavu.lt@neo-lab.vn";
         String password = "123123123";
         int type = 2;
 

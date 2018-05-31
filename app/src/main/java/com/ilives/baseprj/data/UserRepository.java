@@ -7,12 +7,13 @@ import com.ilives.baseprj.data.core.RetrofitProvider;
 import com.ilives.baseprj.features.login.models.LoginData;
 import com.ilives.baseprj.manager.PreferenceManager;
 
+import io.reactivex.Observable;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * -------------^_^-------------
@@ -40,7 +41,7 @@ public class UserRepository {
         mUserApi = RetrofitProvider.getInstance().makeApi(UserApi.class);
     }
 
-    public Observable<ApiResponse<LoginData>> doLogin(String email, String password, int type) {
+    public Observable<Response<LoginData>> doLogin(String email, String password, int type) {
         return mUserApi.login(email, password, type);
     }
 
@@ -65,11 +66,11 @@ public class UserRepository {
 
     interface UserApi {
         //region Account
-
-        @POST("login")
-        Observable<ApiResponse<LoginData>> login(@Field("email") String email,
-                                                 @Field("password") String password,
-                                                 @Field("type") int type);
+        @FormUrlEncoded
+        @POST("api/v1/auth/login")
+        Observable<Response<LoginData>> login(@Field("email") String email,
+                                              @Field("password") String password,
+                                              @Field("type") int type);
 
         @GET("profile")
         Observable<ApiResponse<User>> getProfile();

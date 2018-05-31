@@ -6,7 +6,8 @@ import com.ilives.baseprj.common.models.User;
 import com.ilives.baseprj.common.models.api_response.ApiResponse;
 import com.ilives.baseprj.features.login.models.LoginData;
 
-import rx.Observable;
+import io.reactivex.Observable;
+import retrofit2.Response;
 
 /**
  * -------------^_^-------------
@@ -28,7 +29,7 @@ public class LoginContract {
     }
 
     public interface Interactor extends  BaseActivityContract.Interactor {
-        Observable<ApiResponse<LoginData>> authenticateUser(String email, String password, int type);
+        Observable<Response<LoginData>> authenticateUser(String email, String password, int type);
 
         Observable<ApiResponse<User>> getUserProfile();
     }

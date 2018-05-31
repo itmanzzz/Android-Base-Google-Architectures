@@ -5,7 +5,8 @@ import com.ilives.baseprj.common.models.api_response.ApiResponse;
 import com.ilives.baseprj.data.UserRepository;
 import com.ilives.baseprj.features.login.models.LoginData;
 
-import rx.Observable;
+import io.reactivex.Observable;
+import retrofit2.Response;
 
 /**
  * -------------^_^-------------
@@ -19,7 +20,7 @@ import rx.Observable;
 public class LoginActivityInteractor implements LoginContract.Interactor{
 
     @Override
-    public Observable<ApiResponse<LoginData>> authenticateUser(String email, String password, int type) {
+    public Observable<Response<LoginData>> authenticateUser(String email, String password, int type) {
         return UserRepository.getInstance().doLogin(email, password, type);
     }
 
