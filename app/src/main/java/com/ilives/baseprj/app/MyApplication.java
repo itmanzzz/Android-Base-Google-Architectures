@@ -32,7 +32,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-        PreferenceManager.init(this);
+        PreferenceManager.init();
         AppsLifecycleHandler handler = new AppsLifecycleHandler(this);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);

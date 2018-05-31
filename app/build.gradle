@@ -187,6 +187,10 @@ dependencies {
     // loading animation
     implementation 'com.wang.avi:library:2.1.3'
 
+    // material edittext
+    implementation 'com.android.support:support-annotations:22.2.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
