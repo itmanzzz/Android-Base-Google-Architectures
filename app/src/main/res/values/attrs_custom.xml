@@ -1,0 +1,40 @@
+<resources>
+
+    <declare-styleable name="MyView">
+        <attr name="exampleString" format="string" />
+        <attr name="exampleDimension" format="dimension" />
+        <attr name="exampleColor" format="color" />
+        <attr name="exampleDrawable" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="DTextView">
+        <attr name="txtFont" format="enum">
+            <enum name="Gotham_Light" value="1" />
+            <enum name="Gotham_Bold" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="DEditText">
+        <attr name="edtFont" format="enum">
+            <enum name="Gotham_Light" value="1" />
+            <enum name="Gotham_Bold" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="DButton">
+        <attr name="btnFront" format="enum">
+            <enum name="Gotham_Light" value="1" />
+            <enum name="Gotham_Bold" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SettingItemView">
+        <attr name="SI_title" format="string"/>
+        <attr name="SI_desc" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="MaskedEditText">
+        <attr name="mask" format="string" />
+        <attr name="placeholder" format="string" />
+    </declare-styleable>
+</resources>

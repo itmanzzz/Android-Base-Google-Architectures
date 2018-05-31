@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/md_red_200</color>
+    <color name="colorPrimaryDark">#daf6ff</color>
+    <color name="colorAccent">#009da3</color>
+    <color name="link_color">#00aae4</color>
+
+    <color name="colorTransparent">#00FFFFFF</color>
+    <color name="colorGreyTransparent">#20999999</color>
+    <color name="colorGrey">#F2F2F2</color>
+    <color name="colorBlackTransparent">#80000000</color>
+    <color name="black_transparent_50">#80000000</color>
+
+    <color name="color_even_item_bg">#80F4F2F2</color>
+    <color name="color_odd_item_bg">#80FBFBFB</color>
+
+    <color name="colorLightGrey">#DBD5D5</color>
+
+    <color name="text_disable">#eeeeee</color>
+    <color name="text_small">#a0a0a0</color>
+    <color name="text_normal">#707070</color>
+    <color name="text_warning">#ed0c1b</color>
+
+    <color name="toast_success">#51a351</color>
+    <color name="toast_error">#bd362f</color>
+    <color name="toast_info">#2f96b4</color>
+    <color name="toast_warning">#f89406</color>
+
+    <color name="state_enable_selected">#00aae4</color>
+    <color name="state_enable_not_select">#919191</color>
+    <color name="state_disable_selected">#2f2f2f</color>
+    <color name="state_disable">#e1e1e1</color>
+
+    <color name="btn_enable_start">#00aae4</color>
+    <color name="btn_enable_end">#00aae4</color>
+    <color name="btn_disable_start">#8858c4ed</color>
+    <color name="btn_disable_end">#884aaae1</color>
+
+    <color name="dialog_confirm">#00aae4</color>
+    <color name="dialog_warning">#ffb000</color>
+    <color name="dialog_error">#ff0000</color>
+    <color name="bg_item_confirm">#d700aae4</color>
+    <color name="bg_item_warning">#d7ffb000</color>
+    <color name="bg_item_error">#d7ff0000</color>
+    <color name="dialog_button_left">#e5e5e5</color>
+</resources>

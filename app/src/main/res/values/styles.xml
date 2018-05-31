@@ -1,0 +1,45 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--Window transition-->
+    <style name="Activity.Transition" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:windowAnimationStyle">@style/Activity.Transition</item>
+    </style>
+
+    <style name="bigSizeTextBold">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_normal</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+    <style name="bigSizeTextBoldBlue">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/md_blue_500</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppToolbarTitleText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ToastDialogTheme">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <declare-styleable name="RoundRectImageView">
+        <attr name="cornerRadius" format="dimension"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,195 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+    dataBinding {
+        enabled = true
+    }
+
+    signingConfigs {
+        release {
+//            storeFile file(RELEASE_STORE_FILE)
+//            storePassword RELEASE_STORE_PASSWORD
+//            keyAlias RELEASE_KEY_ALIAS
+//            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
+    /**
+     * To auto increase version name, create a file `version.properties` with content as below
+     * major=1 -> version major number
+     * minor=39 -> version minor number
+     * patch=5 -> version patch number
+     */
+    def versionPropsFile = file('version.properties')
+    def vName = "1.39.0"
+
+    /*Read Version Name from  version.properties if has*/
+    if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        vName = versionProps['major'] + '.' + versionProps['minor'] + '.' + versionProps['patch']
+    } else {
+        print("Not use auto increment version")
+    }
+
+
+    /*Auto Increase patch number after build success*/
+    ext.autoIncrementVersion = {
+        if (versionPropsFile.exists() && versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            def patchNum = Integer.parseInt(versionProps['patch']) + 1
+            versionProps['patch'] = patchNum.toString()
+            BufferedWriter writer = versionPropsFile.newWriter()
+            versionProps.store(writer, null)
+            writer.close()
+        } else {
+            print("Not use auto increment version")
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.ilives.baseprj"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+        //Build Number
+        DateFormat format = new SimpleDateFormat("YYYYMMdd");
+        Date currentDate = new Date();
+        Integer buildNumber = Integer.parseInt(format.format(currentDate));
+        versionCode buildNumber
+        versionName vName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "dev", "prod"
+    productFlavors {
+        dev {
+            dimension "dev"
+            buildConfigField "String", "ENDPOINT", "\"http://app-dev.cafb.whotv.net/\""
+            buildConfigField "String", "SOCKET_ENDPOINT", "\"\""
+        }
+
+        prod {
+            dimension "prod"
+            buildConfigField "String", "ENDPOINT", "\"http://app-dev.cafb.whotv.net/\""
+            buildConfigField "String", "SOCKET_ENDPOINT", "\"\""
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        def apkName = "base_app";
+        apkName += "-" + variant.productFlavors[0].name;
+        DateFormat format = new SimpleDateFormat("YYYYMMdd");
+        Date currentDate = new Date();
+        apkName += "_BUILD-" + format.format(currentDate);
+
+        if (variant.buildType.name.equals("debug")) {
+            apkName += "-snapshot";
+        }
+        apkName += ".apk";
+//        variant.outputs.each { output ->
+//            output.outputFile = file("$project.buildDir/apk/" + apkName)
+//        }
+    }
+
+    //Mention in the doc
+    dexOptions {
+        //preDexLibraries = false
+        javaMaxHeapSize "6g" // 2g should be also OK
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'src/main/libs'
+        jni.srcDirs = []
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    //region Support Library
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation "com.android.support:appcompat-v7:27.1.1"
+    implementation "com.android.support:design:27.1.1"
+    implementation "com.android.support:recyclerview-v7:27.1.1"
+    implementation "com.android.support:cardview-v7:27.1.1"
+    implementation "com.android.support:gridlayout-v7:27.1.1"
+    implementation "com.android.support:support-v4:27.1.1"
+    //endregion
+
+    //Multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //region Retrofit 2
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //endregion
+
+
+    //RxJava and RxAndroid
+    implementation 'io.reactivex:rxjava:1.2.2'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+
+    //Rxlifecycle
+    implementation 'com.trello:rxlifecycle:0.6.1'
+    implementation 'com.trello:rxlifecycle-components:0.6.1'
+
+    //Glide -> Image Loading
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+    //Animator for RecyclerView
+    implementation 'jp.wasabeef:recyclerview-animators:2.2.7'
+
+    //Socket
+    implementation ('com.github.nkzawa:socket.io-client:0.6.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('org.apache.commons:commons-io:1.3.2') with module('commons-io:commons-io:1.3.2')
+    }
+}
