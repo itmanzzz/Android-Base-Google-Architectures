@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.design.widget.AppBarLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize">
+
+            <ImageView
+                android:id="@+id/btnLeft"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="@string/image_des"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="centerInside"
+                tools:targetApi="lollipop" />
+
+            <com.ilives.baseprj.common.views.DTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/header_title"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/_14sdp" />
+
+            <ImageView
+                android:id="@+id/btnRight"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="@string/image_des"
+                android:padding="@dimen/_3sdp"
+                android:scaleType="centerInside"
+                tools:targetApi="lollipop" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.ilives.baseprj.features.login;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,9 +8,9 @@ import android.view.View;
 
 import com.ilives.baseprj.R;
 import com.ilives.baseprj.common.base.BaseActivity;
-import com.ilives.baseprj.common.models.Error;
 import com.ilives.baseprj.common.models.ToastType;
 import com.ilives.baseprj.databinding.ActivityLoginBinding;
+import com.ilives.baseprj.features.HomeActivity;
 
 /**
  * -------------^_^-------------
@@ -45,16 +46,18 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     public void authenticated() {
         showToast(ToastType.SUCCESS, "authenticated");
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
     @Override
-    public void unAuthenticated(Error error) {
-        showToast(ToastType.ERROR, "unAuthenticated");
+    public void unAuthenticated(String msg) {
+        showToast(ToastType.ERROR, msg);
     }
 
     private void doAuthenticate() {
         if (!preCheckConnection()) return;
-        String email = "aavu.lt@neo-lab.vn";
+        String email = "vu.lt@neo-lab.vn";
         String password = "123123123";
         int type = 2;
 

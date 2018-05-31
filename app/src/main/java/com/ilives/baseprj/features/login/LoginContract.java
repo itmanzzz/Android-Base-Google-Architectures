@@ -21,7 +21,7 @@ import retrofit2.Response;
 public class LoginContract {
     public interface View extends BaseActivityContract.View {
         void authenticated();
-        void unAuthenticated(Error error);
+        void unAuthenticated(String msg);
     }
 
     public interface Presenter extends BaseActivityContract.Presenter<View> {

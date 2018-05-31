@@ -3,7 +3,6 @@ package com.ilives.baseprj.common.base;
 import com.ilives.baseprj.R;
 import com.ilives.baseprj.common.models.Error;
 import com.ilives.baseprj.common.models.ToastType;
-import com.ilives.baseprj.common.views.OurAlertDialog;
 import com.ilives.baseprj.services.network.RetrofitException;
 
 /**
@@ -53,20 +52,20 @@ public abstract class BaseActivityPresenter <V extends BaseActivityContract.View
     @Override
     public boolean handleCommonError(Error error) {
         if (error != null) {
-            if (error.getCode() == 401) {
-                //Token expire
-                if (mView != null) {
-                    mView.showAlert(OurAlertDialog.DialogType.ERROR, error.getFirstMessage(),
-                            null, null,
-                            R.string.action_ok, (dialog, which) -> {
-                                dialog.dismiss();
-                                // TODO Unauthenticated
-                               // mView.getActivityContext().startActivity(new Intent(mView.getActivityContext(), LoginActivity.class));
-                                mView.getActivityContext().finish();
-                            });
-                }
-                return true;
-            }
+//            if (error.getCode() == 401) {
+//                //Token expire
+//                if (mView != null) {
+//                    mView.showAlert(OurAlertDialog.DialogType.ERROR, error.getFirstMessage(),
+//                            null, null,
+//                            R.string.action_ok, (dialog, which) -> {
+//                                dialog.dismiss();
+//                                // TODO Unauthenticated
+//                               // mView.getActivityContext().startActivity(new Intent(mView.getActivityContext(), LoginActivity.class));
+//                                mView.getActivityContext().finish();
+//                            });
+//                }
+//                return true;
+//            }
         }
         return false;
     }

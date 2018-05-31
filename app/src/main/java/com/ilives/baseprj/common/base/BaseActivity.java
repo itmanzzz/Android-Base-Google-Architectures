@@ -24,6 +24,10 @@ import com.ilives.baseprj.common.views.ToastDialog;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import es.dmoral.toasty.Toasty;
+
+import static com.ilives.baseprj.common.models.ToastType.WARNING;
+
 /**
  * -------------^_^-------------
  * ❖ com.ilives.baseprj.common.base
@@ -33,7 +37,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
  * ❖ Time: 16:18
  * -------------^_^-------------
  **/
-public abstract class BaseActivity <T extends BaseActivityContract.Presenter> extends RxAppCompatActivity
+public abstract class BaseActivity<T extends BaseActivityContract.Presenter> extends RxAppCompatActivity
         implements BaseActivityContract.View {
 
     /**
@@ -125,14 +129,28 @@ public abstract class BaseActivity <T extends BaseActivityContract.Presenter> ex
 
     @Override
     public void showToast(ToastType type, String message) {
-        runOnUiThread(() -> {
-            synchronized (mLockObj) {
-                if (mToastDialog == null) {
-                    mToastDialog = new ToastDialog(this);
-                }
-                mToastDialog.showMessage(message, type, 2500);
-            }
-        });
+//        runOnUiThread(() -> {
+//            synchronized (mLockObj) {
+//                if (mToastDialog == null) {
+//                    mToastDialog = new ToastDialog(this);
+//                }
+//                mToastDialog.showMessage(message, type, 2500);
+//            }
+//        });
+        switch (type) {
+            case SUCCESS:
+                Toasty.success(this, message).show();
+                break;
+            case INFO:
+                Toasty.info(this, message).show();
+                break;
+            case WARNING:
+                Toasty.warning(this, message).show();
+                break;
+            case ERROR:
+                Toasty.error(this, message).show();
+                break;
+        }
     }
 
     @Override
@@ -246,7 +264,7 @@ public abstract class BaseActivity <T extends BaseActivityContract.Presenter> ex
 
     public boolean preCheckConnection() {
         if (!MyApplication.isOnline()) {
-            showToast(ToastType.WARNING, R.string.msg_error_no_internet);
+            showToast(WARNING, R.string.msg_error_no_internet);
             return false;
         }
         return true;

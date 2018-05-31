@@ -1,10 +1,8 @@
 package com.ilives.baseprj.common.models;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * -------------^_^-------------
@@ -16,62 +14,46 @@ import java.util.List;
  * -------------^_^-------------
  **/
 public class Error {
-    @SerializedName("code")
-    @Expose
-    private int code;
-    @SerializedName("message")
-    @Expose
-    private List<String> message;
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_PASSWORD = "password";
 
-    public Error(int code, String... errors) {
-        this.code = code;
-        message = new ArrayList<>();
-        if (errors != null) {
-            for (String error:errors) {
-                message.add(error);
-            }
-        }
+    /**
+     * error": { "email": ["メールアドレスは、有効なメールアドレス形式で指定してください"] }
+     */
+    @SerializedName("error")
+    @Expose
+    private JsonObject errorObj;
+
+    public Error(JsonObject errorObj) {
+        this.errorObj = errorObj;
+    }
+
+
+    public JsonObject getErrorObj() {
+        return errorObj;
+    }
+
+    public void setErrorObj(JsonObject errorObj) {
+        this.errorObj = errorObj;
     }
 
     /**
+     * Checking message or object message response and give error message
      *
      * @return
-     * The code
      */
-    public int getCode() {
-        return code;
-    }
-
-    /**
-     *
-     * @param code
-     * The code
-     */
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    /**
-     *
-     * @return
-     * The message
-     */
-    public List<String> getMessage() {
-        return message;
-    }
-
-    /**
-     *
-     * @param message
-     * The message
-     */
-    public void setMessage(List<String> message) {
-        this.message = message;
-    }
-
     public String getFirstMessage() {
-        if (message != null && !message.isEmpty()) {
-            return message.get(0);
+        int first_index = 0;
+        if (this.getErrorObj().has(KEY_EMAIL)) {
+            return this.getErrorObj()
+                    .getAsJsonArray(KEY_EMAIL)
+                    .get(first_index).getAsString();
+        }
+
+        if (this.getErrorObj().has(KEY_PASSWORD)) {
+            return this.getErrorObj()
+                    .getAsJsonArray(KEY_PASSWORD)
+                    .get(first_index).getAsString();
         }
         return "Unexpected error";
     }

@@ -85,20 +85,21 @@ public class Utils {
      * Dp to px int.
      *
      * @param context the p context
-     * @param sp       the dp
+     * @param sp      the dp
      * @return the int
      */
     public static int spToPx(Context context, float sp) {
         int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
         return px;
     }
+
     /**
      * Generate header string.
      *
      * @param pToken the p token
      * @return the string
      */
-    public static String generateHeader(String pToken){
+    public static String generateHeader(String pToken) {
         return "Bearer " + pToken;
     }
 
@@ -174,7 +175,7 @@ public class Utils {
      * Hides the soft keyboard
      */
     public static void hideSoftKeyboard(Activity context) {
-        if(context.getCurrentFocus()!= null) {
+        if (context.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
         }
@@ -237,28 +238,25 @@ public class Utils {
 
 
     public static boolean validateEmail(String emailStr) {
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
     }
 
-    public static boolean isValidLatLng(double lat, double lng){
-        if(lat < -90 || lat > 90)
-        {
+    public static boolean isValidLatLng(double lat, double lng) {
+        if (lat < -90 || lat > 90) {
             return false;
-        }
-        else if(lng < -180 || lng > 180)
-        {
+        } else if (lng < -180 || lng > 180) {
             return false;
         }
         return true;
     }
 
     public static boolean isValidLatitude(double lat) {
-        return lat>= - 90 && lat <= 90;
+        return lat >= -90 && lat <= 90;
     }
 
     public static boolean isValidLongitude(double lat) {
-        return lat>= - 180 && lat <= 180;
+        return lat >= -180 && lat <= 180;
     }
 
     public static boolean isValidString(String value) {
@@ -269,11 +267,11 @@ public class Utils {
         return Color.argb((int) (alpha * 255), Color.red(color), Color.green(color), Color.blue(color));
     }
 
-    public static int getColorWithoutAlpha(int color){
+    public static int getColorWithoutAlpha(int color) {
         return Color.rgb(Color.red(color), Color.green(color), Color.blue(color));
     }
 
-    public static float getAlphaOfColor(int color){
+    public static float getAlphaOfColor(int color) {
         return (float) Color.alpha(color) / 255f;
     }
 
@@ -402,15 +400,14 @@ public class Utils {
      * @param y4 the Y coordinate of the end point of the second
      *           specified line segment
      * @return <code>true</code> if the first specified line segment
-     *                  and the second specified line segment intersect
-     *                  each other; <code>false</code> otherwise.
+     * and the second specified line segment intersect
+     * each other; <code>false</code> otherwise.
      * @since 1.2
      */
     public static boolean linesIntersect(double x1, double y1,
                                          double x2, double y2,
                                          double x3, double y3,
-                                         double x4, double y4)
-    {
+                                         double x4, double y4) {
         return ((relativeCCW(x1, y1, x2, y2, x3, y3) *
                 relativeCCW(x1, y1, x2, y2, x4, y4) <= 0)
                 && (relativeCCW(x3, y3, x4, y4, x1, y1) *
@@ -455,14 +452,13 @@ public class Utils {
      * @param py the Y coordinate of the specified point to be
      *           compared with the specified line segment
      * @return an integer that indicates the position of the third specified
-     *                  coordinates with respect to the line segment formed
-     *                  by the first two specified coordinates.
+     * coordinates with respect to the line segment formed
+     * by the first two specified coordinates.
      * @since 1.2
      */
     public static int relativeCCW(double x1, double y1,
                                   double x2, double y2,
-                                  double px, double py)
-    {
+                                  double px, double py) {
         x2 -= x1;
         y2 -= y1;
         px -= x1;
@@ -496,10 +492,10 @@ public class Utils {
     }
 
     public static String readableFileSize(long size) {
-        if(size <= 0) return "0";
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-        int digitGroups = (int) (Math.log10(size)/ Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size/ Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        if (size <= 0) return "0";
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
 
@@ -552,5 +548,14 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static boolean isJson(String str) {
+        try {
+            final JSONObject obj = new JSONObject(str);
+        } catch (JSONException e) {
+            return false;
+        }
+        return true;
     }
 }
