@@ -3,7 +3,6 @@ package com.ilives.baseprj.features;
 import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -42,16 +41,30 @@ public class HomeActivity extends BaseActivity implements ViewPager.OnPageChange
     private HomePagerAdapter mPagerAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initData(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initRootView(Bundle savedInstanceState) {
         this.rootView = DataBindingUtil.setContentView(this, R.layout.activity_home);
+    }
+
+    @Override
+    protected void initUI(Bundle savedInstanceState) {
         this.initViews();
+    }
+
+    @Override
+    protected void loadData(Bundle savedInstanceState) {
+
     }
 
     @Override
     public BaseActivityContract.Presenter getPresenter() {
         return null;
     }
+
 
     /**
      * Initializing views and listener

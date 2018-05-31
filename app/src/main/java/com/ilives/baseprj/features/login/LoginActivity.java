@@ -3,7 +3,6 @@ package com.ilives.baseprj.features.login;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.ilives.baseprj.R;
@@ -27,10 +26,23 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private LoginActivityPresenter mPresenter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initData(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initRootView(Bundle savedInstanceState) {
         this.rootView = DataBindingUtil.setContentView(this, R.layout.activity_login);
+    }
+
+    @Override
+    protected void initUI(Bundle savedInstanceState) {
         this.initViews();
+    }
+
+    @Override
+    protected void loadData(Bundle savedInstanceState) {
+
     }
 
     private void initViews() {

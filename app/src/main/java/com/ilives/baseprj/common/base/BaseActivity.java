@@ -2,6 +2,7 @@ package com.ilives.baseprj.common.base;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +10,6 @@ import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -18,9 +17,9 @@ import com.ilives.baseprj.R;
 import com.ilives.baseprj.app.Constants;
 import com.ilives.baseprj.app.MyApplication;
 import com.ilives.baseprj.common.models.ToastType;
+import com.ilives.baseprj.common.views.DLoading;
 import com.ilives.baseprj.common.views.LoadingDialog;
 import com.ilives.baseprj.common.views.OurAlertDialog;
-import com.ilives.baseprj.common.views.ToastDialog;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -44,30 +43,26 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
      * The constant TIME_OUT_FOR_SHOW_LOADING.
      */
     public static final int TIME_OUT_FOR_SHOW_LOADING = 30000;
-    public static final int HALF_HOUR_IN_MILLS = 30 * 60000;
     private LoadingDialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
 
-    //Menu
-    protected View mBtnMenu;
-    private AlertDialog mAlertDialog;
     private boolean mIsAlertDialogCancelable = true;
     protected Handler mOsHandler;
     private Object mLockObj = new Object();
-    private long mLastTimeGoneBackground;
-    private int mToastMarginTop = -1;
-    private ToastDialog mToastDialog;
-
-    private DrawerLayout mDrawerLayout;
+    private DLoading loading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initData(savedInstanceState);
         super.onCreate(savedInstanceState);
+        loading = new DLoading(this);
         mOsHandler = new Handler();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mLastTimeGoneBackground = System.currentTimeMillis();
         //Hide navigation view
-        hideNavigationBar();
+        //hideNavigationBar();
+        initRootView(savedInstanceState);
+        loadData(savedInstanceState);
+        initUI(savedInstanceState);
     }
 
     @CallSuper
@@ -76,26 +71,29 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
         super.onStart();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransitionExit();
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransitionEnter();
+    }
+
     @CallSuper
     @Override
     protected void onPause() {
         super.onPause();
-        mLastTimeGoneBackground = System.currentTimeMillis();
     }
 
     @CallSuper
     @Override
     protected void onResume() {
         super.onResume();
-//        if (!SplashActivity.class.equals(getClass()) && !LoginActivity.class.equals(getClass())) {
-//            long diffTime = System.currentTimeMillis() - mLastTimeGoneBackground;
-//            if (diffTime > HALF_HOUR_IN_MILLS) {
-//                //Background time out
-//                startActivity(new Intent(this, LoginActivity.class));
-//                finish();
-//            }
-//        }
-        hideNavigationBar();
+        //hideNavigationBar();
     }
 
     @Override
@@ -129,14 +127,6 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
 
     @Override
     public void showToast(ToastType type, String message) {
-//        runOnUiThread(() -> {
-//            synchronized (mLockObj) {
-//                if (mToastDialog == null) {
-//                    mToastDialog = new ToastDialog(this);
-//                }
-//                mToastDialog.showMessage(message, type, 2500);
-//            }
-//        });
         switch (type) {
             case SUCCESS:
                 Toasty.success(this, message).show();
@@ -223,17 +213,30 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
         });
     }
 
+    private void showALoading() {
+        if (isFinishing()) {
+            return;
+        }
+
+        if (!loading.isShowing())
+            loading.show();
+    }
+
+    private void hideALoading() {
+        if (isFinishing()) {
+            return;
+        }
+
+        if (loading.isShowing())
+            loading.dismiss();
+    }
+
     @Override
     public Activity getActivityContext() {
         return this;
     }
 
-    protected Runnable mDismissLoadingTask = new Runnable() {
-        @Override
-        public void run() {
-            hideLoading();
-        }
-    };
+    protected Runnable mDismissLoadingTask = () -> hideLoading();
 
     protected void logOut() {
         showAlert(OurAlertDialog.DialogType.CONFIRM, R.string.msg_confirm_logout,
@@ -270,25 +273,9 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
         return true;
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public int getActionBarHeight() {
-/*        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            return TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }*/
-        //return Utils.dpToPx(this, 56);
-        return getResources().getDimensionPixelSize(R.dimen.toolbar_height);
-    }
-
+    /**
+     * Full screen options
+     */
     public void hideNavigationBar() {
         if (Build.VERSION.SDK_INT < 19) { // lower api
             View v = this.getWindow().getDecorView();
@@ -306,5 +293,27 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
                 }
             });
         }
+    }
+
+    protected abstract void initData(Bundle savedInstanceState);
+
+    protected abstract void initRootView(Bundle savedInstanceState);
+
+    protected abstract void initUI(Bundle savedInstanceState);
+
+    protected abstract void loadData(Bundle savedInstanceState);
+
+    /**
+     * Overrides the pending Activity transition by performing the "Enter" animation.
+     */
+    protected void overridePendingTransitionEnter() {
+        overridePendingTransition(R.transition.slide_from_right, R.transition.slide_to_left);
+    }
+
+    /**
+     * Overrides the pending Activity transition by performing the "Exit" animation.
+     */
+    protected void overridePendingTransitionExit() {
+        overridePendingTransition(R.transition.slide_from_left, R.transition.slide_to_right);
     }
 }

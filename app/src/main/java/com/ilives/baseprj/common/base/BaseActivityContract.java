@@ -19,8 +19,7 @@ import com.trello.rxlifecycle.ActivityLifecycleProvider;
  * -------------^_^-------------
  **/
 public interface BaseActivityContract {
-
-    public interface View {
+    interface View {
         void showToast(ToastType type, String message);
         void showToast(ToastType type, @StringRes int messageId);
         void showAlert(OurAlertDialog.DialogType type, @StringRes int stringId, @StringRes int positiveBtnLabel, DialogInterface.OnClickListener listener);
@@ -43,7 +42,7 @@ public interface BaseActivityContract {
         ActivityLifecycleProvider getLifecycleProvider();
     }
 
-    public interface Presenter<T extends View> {
+    interface Presenter<T extends View> {
         void onDestroy();
         void bindView(T pView);
         void unbindView();
@@ -58,7 +57,7 @@ public interface BaseActivityContract {
         boolean handleCommonError(Error error);
     }
 
-    public interface Interactor {
+    interface Interactor {
 
     }
 }

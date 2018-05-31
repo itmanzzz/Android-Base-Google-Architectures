@@ -1,5 +1,6 @@
 package com.ilives.baseprj.features.splash;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,8 +8,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import com.ilives.baseprj.R;
-import com.ilives.baseprj.common.base.BaseActivity;
-import com.ilives.baseprj.common.base.BaseActivityContract;
 import com.ilives.baseprj.databinding.ActivitySplashBinding;
 import com.ilives.baseprj.features.login.LoginActivity;
 
@@ -21,7 +20,7 @@ import com.ilives.baseprj.features.login.LoginActivity;
  * ❖ Time: 01:05
  * -------------^_^-------------
  **/
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
 
     ActivitySplashBinding rootView;
 
@@ -38,10 +37,5 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             finish();
         }, 1500);
-    }
-
-    @Override
-    public BaseActivityContract.Presenter getPresenter() {
-        return null;
     }
 }

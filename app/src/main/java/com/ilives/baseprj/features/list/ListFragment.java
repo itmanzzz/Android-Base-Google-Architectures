@@ -31,18 +31,20 @@ public class ListFragment extends BaseFragment {
         return null;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected View initRootView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.rootView = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
         return this.rootView.getRoot();
     }
 
+    @Override
+    protected void initUI(Bundle savedInstanceState) {
+        this.initViews();
+    }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.initViews();
+    protected void loadData(Bundle savedInstanceState) {
+
     }
 
 

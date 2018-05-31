@@ -21,6 +21,12 @@ public class PreferenceManager {
     private SharedPreferences mSharedPreferences;
     private String mAccessToken;
 
+    public static synchronized void init(Context context) {
+        if (sInstance == null) {
+            sInstance = new PreferenceManager();
+        }
+    }
+
     public synchronized static PreferenceManager getInstance() {
         if (sInstance == null) {
             sInstance = new PreferenceManager();

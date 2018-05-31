@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 
+import com.ilives.baseprj.manager.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +32,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        PreferenceManager.init(this);
+        AppsLifecycleHandler handler = new AppsLifecycleHandler(this);
+        registerActivityLifecycleCallbacks(handler);
+        registerComponentCallbacks(handler);
     }
 
     @Override
