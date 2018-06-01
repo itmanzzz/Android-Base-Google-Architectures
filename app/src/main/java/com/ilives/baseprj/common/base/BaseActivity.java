@@ -11,7 +11,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.ilives.baseprj.R;
 import com.ilives.baseprj.app.Constants;
@@ -57,7 +56,7 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
         super.onCreate(savedInstanceState);
         loading = new DLoading(this);
         mOsHandler = new Handler();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         //Hide navigation view
         //hideNavigationBar();
         initRootView(savedInstanceState);
@@ -190,10 +189,11 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
     public void showLoading() {
         runOnUiThread(() -> {
             synchronized (mLockObj) {
-                if (mProgressDialog == null) {
-                    mProgressDialog = new LoadingDialog(this);
-                }
-                mProgressDialog.show();
+//                if (mProgressDialog == null) {
+//                    mProgressDialog = new LoadingDialog(this);
+//                }
+//                mProgressDialog.show();
+                showALoading();
 
                 //Try dismiss loading after a time period for prevent loading mToastDialog is shown persistent.
                 mOsHandler.removeCallbacks(mDismissLoadingTask);
@@ -206,9 +206,10 @@ public abstract class BaseActivity<T extends BaseActivityContract.Presenter> ext
     public void hideLoading() {
         runOnUiThread(() -> {
             synchronized (mLockObj) {
-                if (mProgressDialog != null) {
-                    mProgressDialog.dismiss();
-                }
+//                if (mProgressDialog != null) {
+//                    mProgressDialog.dismiss();
+//                }
+                hideALoading();
             }
         });
     }

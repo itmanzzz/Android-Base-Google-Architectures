@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/md_red_300</color>
-    <color name="colorPrimaryDark">@color/md_red_400</color>
-    <color name="colorAccent">@color/md_red_500</color>
-    <color name="link_color">#00aae4</color>
+    <color name="colorPrimary">@color/app_blue_dark</color>
+    <color name="colorPrimaryDark">@color/app_blue_light</color>
+    <color name="colorAccent">@color/app_blue_facebook</color>
+    <color name="link_color">@color/app_blue_dark</color>
+
+     <!--Main App Color-->
+    <color name="app_blue_light">#18F5FF</color>
+    <color name="app_blue_dark">#11C1D1</color>
+    <color name="app_blue_facebook">#3B5998</color>
+    <color name="app_pink_light">#FF79B2</color>
+    <color name="app_pink_dark">#EE4477</color>
+    <color name="app_text">#505050</color>
+    <color name="app_black_text">#222222</color>
+    <color name="app_gray_text">#999999</color>
+    <!--Main App Color-->
 
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorGreyTransparent">#20999999</color>

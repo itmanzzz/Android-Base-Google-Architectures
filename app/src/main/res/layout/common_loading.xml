@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:indicatorColor="@color/md_red_500"
+        app:indicatorColor="@color/md_white_1000"
         app:indicatorName="BallClipRotatePulseIndicator" />
 
 </RelativeLayout>

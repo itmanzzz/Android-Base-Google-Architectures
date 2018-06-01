@@ -28,4 +28,6 @@
     
     <dimen name="btn_corner">3dp</dimen>
     <dimen name="dialog_corner">5dp</dimen>
+
+    <dimen name="button_radius">100dp</dimen>
 </resources>

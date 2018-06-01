@@ -44,13 +44,23 @@
 
         <com.ilives.baseprj.common.views.DButton
             android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
+            style="@style/AppButtonBlue"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="10dp"
             android:text="Login"
-            android:textColor="@color/md_white_1000"
+            tools:targetApi="lollipop" />
+
+        <com.ilives.baseprj.common.views.DButton
+            style="@style/AppButtonPink"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnLogin"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="10dp"
+            android:text="Pink"
             tools:targetApi="lollipop" />
     </RelativeLayout>
 </layout>
