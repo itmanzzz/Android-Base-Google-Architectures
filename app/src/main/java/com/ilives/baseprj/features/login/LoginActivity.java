@@ -8,8 +8,11 @@ import android.view.View;
 import com.ilives.baseprj.R;
 import com.ilives.baseprj.common.base.BaseActivity;
 import com.ilives.baseprj.common.models.ToastType;
+import com.ilives.baseprj.common.views.PopupDialog;
 import com.ilives.baseprj.databinding.ActivityLoginBinding;
 import com.ilives.baseprj.features.HomeActivity;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * -------------^_^-------------
@@ -48,6 +51,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private void initViews() {
         getPresenter().bindView(this);
         this.rootView.btnLogin.setOnClickListener(this);
+        this.rootView.btnShowDialog.setOnClickListener(this);
     }
 
     @Override
@@ -78,8 +82,25 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnLogin) {
-            this.doAuthenticate();
+        switch (v.getId()) {
+            case R.id.btnLogin:
+                this.doAuthenticate();
+                break;
+            case R.id.btnShowDialog:
+                //showDialog();
+                break;
+            default:
+                break;
         }
+    }
+
+    private void showDialog() {
+        PopupDialog dialog = new PopupDialog(this);
+        dialog.setTitle("Title");
+        dialog.setContent("Define content message here...");
+        dialog.setActionListener(view -> {
+            Toasty.success(this, "Pressed Action");
+        });
+        dialog.show();
     }
 }

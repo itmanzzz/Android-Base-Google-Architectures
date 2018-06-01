@@ -23,9 +23,9 @@ public class PopupDialog extends Dialog {
         super(context);
         this.mContext = context;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.rootView = DataBindingUtil.setContentView((Activity) getContext(), R.layout.dialog_popup);
-        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        getWindow().setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.colorGreyTransparent)));
+        this.rootView = DataBindingUtil.setContentView((Activity) context, R.layout.dialog_popup);
+        //getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        //getWindow().setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.colorTransparent)));
         setCancelable(true);
     }
 
