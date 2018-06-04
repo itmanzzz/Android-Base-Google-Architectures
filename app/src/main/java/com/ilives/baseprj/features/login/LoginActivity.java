@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
                 this.doAuthenticate();
                 break;
             case R.id.btnShowDialog:
-                //showDialog();
+                showDialog();
                 break;
             default:
                 break;
@@ -134,7 +134,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         PopupDialog dialog = new PopupDialog(this);
         dialog.setTitle("Title");
         dialog.setContent("Define content message here...");
-        dialog.setActionListener(view -> Toasty.success(this, "Pressed Action"));
+        dialog.setActionListener(view -> {
+            dialog.dismiss();
+            Toasty.success(this, "Implement Action...").show();
+        });
         dialog.show();
     }
 
