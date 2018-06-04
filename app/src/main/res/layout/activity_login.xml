@@ -63,5 +63,30 @@
             android:padding="10dp"
             android:text="Pink"
             tools:targetApi="lollipop" />
+
+        <com.ilives.baseprj.common.views.DButton
+            android:id="@+id/btnMyFbLogin"
+            style="@style/AppButtonPink"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnShowDialog"
+            android:layout_centerInParent="true"
+            android:backgroundTint="@color/md_blue_700"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="10dp"
+            android:textColor="@color/md_white_1000"
+            android:text="FB LOGIN"
+            tools:targetApi="lollipop" />
+
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/fbLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnMyFbLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
     </RelativeLayout>
 </layout>

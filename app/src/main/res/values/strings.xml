@@ -8,4 +8,7 @@
     <string name="msg_confirm_logout">本当にログアウトしますか？</string>
     <string name="header_title">Title</string>
     <string name="image_des">Image</string>
+
+    <string name="facebook_app_id">291704961369195</string>
+    <string name="fb_login_protocol_scheme">fb291704961369195</string>
 </resources>

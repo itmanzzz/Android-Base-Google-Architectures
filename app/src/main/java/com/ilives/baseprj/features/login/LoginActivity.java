@@ -5,12 +5,25 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookException;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.ilives.baseprj.R;
 import com.ilives.baseprj.common.base.BaseActivity;
 import com.ilives.baseprj.common.models.ToastType;
+import com.ilives.baseprj.common.util.LogUtils;
+import com.ilives.baseprj.common.util.facebook.FacebookUtil;
+import com.ilives.baseprj.common.util.facebook.FbGraphCallback;
+import com.ilives.baseprj.common.util.facebook.LoginCallback;
 import com.ilives.baseprj.common.views.PopupDialog;
 import com.ilives.baseprj.databinding.ActivityLoginBinding;
 import com.ilives.baseprj.features.HomeActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import es.dmoral.toasty.Toasty;
 
@@ -23,10 +36,12 @@ import es.dmoral.toasty.Toasty;
  * ❖ Time: 00:41
  * -------------^_^-------------
  **/
-public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View, View.OnClickListener {
+public class LoginActivity extends BaseActivity<LoginContract.Presenter>
+        implements LoginContract.View, View.OnClickListener, LoginCallback, FbGraphCallback {
 
     ActivityLoginBinding rootView;
     private LoginActivityPresenter mPresenter;
+    private CallbackManager callbackManager;
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -52,7 +67,22 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         getPresenter().bindView(this);
         this.rootView.btnLogin.setOnClickListener(this);
         this.rootView.btnShowDialog.setOnClickListener(this);
+
+        // Login Facebook
+        this.callbackManager = CallbackManager.Factory.create();
+        this.rootView.btnMyFbLogin.setOnClickListener(view -> this.doLoginFbIn());
     }
+
+    private void doLoginFbIn() {
+        if (this.rootView.btnMyFbLogin.getText().toString().trim().equalsIgnoreCase("FB LOGIN")) {
+            FacebookUtil.doLoginFacebook(this, callbackManager, this);
+            return;
+        }
+
+        LoginManager.getInstance().logOut();
+        this.rootView.btnMyFbLogin.setText("FB LOGIN");
+    }
+
 
     @Override
     public LoginContract.Presenter getPresenter() {
@@ -94,13 +124,53 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void showDialog() {
         PopupDialog dialog = new PopupDialog(this);
         dialog.setTitle("Title");
         dialog.setContent("Define content message here...");
-        dialog.setActionListener(view -> {
-            Toasty.success(this, "Pressed Action");
-        });
+        dialog.setActionListener(view -> Toasty.success(this, "Pressed Action"));
         dialog.show();
+    }
+
+    @Override
+    public void onSuccess(LoginResult loginResult) {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        this.rootView.btnMyFbLogin.setText(isLoggedIn ? "LOGOUT" : "FB LOGIN");
+        FacebookUtil.getFbGraphProfile(loginResult, this);
+    }
+
+
+    @Override
+    public void onCancel() {
+
+    }
+
+    @Override
+    public void onError(FacebookException error) {
+
+    }
+
+    @Override
+    public void onCompleted(JSONObject data, GraphResponse res) {
+        LogUtils.d("LoginActivity", res.toString());
+        // Application code
+        try {
+            String email = data.getString("email");
+            String name = data.getString("name");
+            String birthday = "";
+            if (data.has("birthday")) {
+                birthday = data.getString("birthday"); // 01/31/1980 format
+            }
+            Toasty.success(LoginActivity.this, "Email: " + email + " -- birthday: " + birthday + " -- Name: " + name).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
